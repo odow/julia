@@ -518,7 +518,11 @@ end
 
 function source_dir()
     p = source_path(nothing)
-    p === nothing ? p : dirname(p)
+    if p === nothing
+        isinteractive() ? pwd() : p
+    else
+        dirname(p)
+    end
 end
 
 """
@@ -534,8 +538,8 @@ macro __FILE__() source_path() end
     @__DIR__ -> AbstractString
 
 `@__DIR__` expands to a string with the directory part of the absolute path of the file
-containing the macro. Returns `nothing` if run from a REPL or an empty string if
-evaluated by `julia -e <expr>`.
+containing the macro. Returns the current working directory if run from a REPL or an empty
+string if evaluated by `julia -e <expr>`.
 """
 macro __DIR__() source_dir() end
 
