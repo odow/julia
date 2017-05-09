@@ -15,6 +15,7 @@ MPFR_OPTS += --disable-thread-safe CFLAGS="$(CFLAGS) -DNPRINTF_L -DNPRINTF_T -DN
 endif
 endif
 
+MPFR_OPTS += LD="$(LD)" LDFLAGS="$(LDFLAGS)"
 
 ifeq ($(OS),Darwin)
 MPFR_CHECK_MFLAGS := LDFLAGS="$(LDFLAGS) -Wl,-rpath,'$(build_libdir)'"
