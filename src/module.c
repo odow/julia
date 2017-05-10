@@ -456,8 +456,6 @@ JL_DLLEXPORT void jl_set_const(jl_module_t *m, jl_sym_t *var, jl_value_t *val)
 
 JL_DLLEXPORT int jl_is_const(jl_module_t *m, jl_sym_t *var)
 {
-    jl_ptls_t ptls = jl_get_ptls_states();
-    if (m == NULL) m = ptls->current_module;
     jl_binding_t *b = jl_get_binding(m, var);
     return b && b->constp;
 }

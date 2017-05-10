@@ -4,7 +4,8 @@ script = """
 # Issue #11948
 f(x) = x+1
 workspace()
-@assert !isdefined(:f)
+@assert @__MODULE__() === Main
+@assert !isdefined(Main, :f)
 LastMain.f(2)
 
 # PR #12990

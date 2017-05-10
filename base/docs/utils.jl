@@ -338,7 +338,7 @@ end
 print_joined_cols(args...; cols = displaysize(STDOUT)[2]) = print_joined_cols(STDOUT, args...; cols=cols)
 
 function print_correction(io, word)
-    cors = levsort(word, accessible(current_module()))
+    cors = levsort(word, accessible(Main))
     pre = "Perhaps you meant "
     print(io, pre)
     print_joined_cols(io, cors, ", ", " or "; cols = displaysize(io)[2] - length(pre))
@@ -366,7 +366,7 @@ accessible(mod::Module) =
      map(names, moduleusings(mod))...;
      builtins] |> unique |> filtervalid
 
-completions(name) = fuzzysort(name, accessible(current_module()))
+completions(name) = fuzzysort(name, accessible(Main))
 completions(name::Symbol) = completions(string(name))
 
 

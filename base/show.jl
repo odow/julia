@@ -1099,7 +1099,7 @@ function resolvebinding(ex::Expr)
 end
 function resolvebinding(ex::GlobalRef)
     isdefined(ex.mod, ex.name) || return nothing
-    #isconst(ex.mod, ex.name) || return nothing
+    isconst(ex.mod, ex.name) || return nothing
     m = getfield(ex.mod, ex.name)
     isa(m, Module) || return nothing
     return m

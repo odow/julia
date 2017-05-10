@@ -52,7 +52,7 @@ Takes the expression `x` and returns an equivalent expression in lowered form
 for executing in module `m`.
 See also [`code_lowered`](@ref).
 """
-expand(x::ANY, m::Module=current_module()) = ccall(:jl_expand, Any, (Any, Any), x, m)
+expand(x::ANY, m::Module) = ccall(:jl_expand, Any, (Any, Any), x, m)
 
 """
     macroexpand(x, m)
@@ -60,7 +60,7 @@ expand(x::ANY, m::Module=current_module()) = ccall(:jl_expand, Any, (Any, Any), 
 Takes the expression `x` and returns an equivalent expression with all macros removed (expanded)
 for executing in module `m`.
 """
-macroexpand(x::ANY, m::Module=current_module()) = ccall(:jl_macroexpand, Any, (Any, Any), x, m)
+macroexpand(x::ANY, m::Module) = ccall(:jl_macroexpand, Any, (Any, Any), x, m)
 
 """
     @macroexpand
@@ -95,8 +95,7 @@ the code was finally called (REPL in the example).
 Note that when calling `macroexpand` or `@macroexpand` directly from the REPL, both of these contexts coincide, hence there is no difference.
 """
 macro macroexpand(code)
-    code_expanded = macroexpand(code, __module__)
-    return QuoteNode(code_expanded)
+    return :(macroexpand($(QuoteNode(code)), $__module__))
 end
 
 ## misc syntax ##
