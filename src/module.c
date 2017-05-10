@@ -61,12 +61,11 @@ JL_DLLEXPORT jl_value_t *jl_f_new_module(jl_sym_t *name, uint8_t std_imports)
     return (jl_value_t*)m;
 }
 
-JL_DLLEXPORT void jl_set_istopmod(uint8_t isprimary)
+JL_DLLEXPORT void jl_set_istopmod(jl_module_t *self, uint8_t isprimary)
 {
-    jl_ptls_t ptls = jl_get_ptls_states();
-    ptls->current_module->istopmod = 1;
+    self->istopmod = 1;
     if (isprimary) {
-        jl_top_module = ptls->current_module;
+        jl_top_module = self;
         jl_append_any_func = NULL;
     }
 }

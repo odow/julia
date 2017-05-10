@@ -186,7 +186,9 @@ function repl(io::IO, s::Symbol)
     quote
         repl_latex($io, $str)
         repl_search($io, $str)
-        ($(isdefined(s) || haskey(keywords, s))) || repl_corrections($io, $str)
+        $(if isdefined(__module__, s) || haskey(keywords, s)
+               :(repl_corrections($io, $str))
+          end)
         $(_repl(s))
     end
 end

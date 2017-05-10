@@ -170,6 +170,15 @@ argument is [`current_module()`](@ref).
 isconst(m::Module, s::Symbol) =
     ccall(:jl_is_const, Cint, (Any, Any), m, s) != 0
 
+"""
+    @isdefined s -> Bool
+
+Get whether symbol `s` is defined in the current scope.
+"""
+macro isdefined(s::Symbol)
+    return :(isdefined($__module__, $(QuoteNode(s))))
+end
+
 # return an integer such that object_id(x)==object_id(y) if x===y
 object_id(x::ANY) = ccall(:jl_object_id, UInt, (Any,), x)
 
