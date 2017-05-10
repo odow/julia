@@ -1689,3 +1689,15 @@ mktempdir() do dir
         end
     end
 end
+
+@testset "Issue #21775" begin
+    okay = true
+    try
+        cred = LibGit2.SSHCredentials("rick", "astley")
+    catch err
+        okay = false
+        err isa StackOverflowError || rethrow(err)
+    finally
+        @test okay
+    end
+end
